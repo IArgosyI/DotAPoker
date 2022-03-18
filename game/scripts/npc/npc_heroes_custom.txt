@@ -1,0 +1,67 @@
+// Dota Heroes File
+// NOTE: This is not for creating new heroes, this is for taking a currently existing hero as a template and overriding
+// the specified key-value combinations.  Use override_hero <hero_to_override> for this.
+"DOTAHeroes"
+{
+	// Player's Wisp
+	"npc_dota_hero_wisp_dotapoker"
+	{
+		"override_hero"				"npc_dota_hero_wisp"			// Hero to override
+		"Ability1"					""		// Ability 1
+		"Ability2"					""		// Ability 2
+		"Ability3"					""		// Ability 3
+		"Ability4"					""		// Ability 4
+		"Ability5"					""		// Ability 5
+		"Ability6"					""		// Ability 6
+		"Ability7"					""		// Ability 7
+		"Ability8"					""		// Ability 8
+
+		"VisionDaytimeRange"		"5000"		// Range of vision during day light.
+		"VisionNighttimeRange"		"5000"		// Range of vision at night time.
+		"ArmorPhysical"       		"0"                 	// Physical protection.
+		"MagicalResistance"       	"0"                 	// Magical protection (percentage).
+
+		"AttackCapabilities"    	"DOTA_UNIT_CAP_NO_ATTACK"
+		"AttributeBaseStrength"		"200"			// Base strength
+
+		"AttackDesire"				"0.0"
+	}
+
+	// Poker Heroes
+	"npc_dota_hero_drow_ranger_dotapoker"
+	{
+		"override_hero"				"npc_dota_hero_drow_ranger"			// Hero to override
+		"Ability1"					"drow_ranger_multishot"		// Ability 1
+		"Ability2"					""		// Ability 2
+		"Ability3"					""		// Ability 3
+		"Ability4"					""		// Ability 4
+		"Ability5"					""		// Ability 5
+		"Ability6"					""		// Ability 6
+		"Ability7"					""		// Ability 7
+		"Ability8"					""		// Ability 8
+	}
+	"npc_dota_hero_axe_dotapoker"
+	{
+		"override_hero"				"npc_dota_hero_axe"			// Hero to override
+		"Ability1"					""		// Ability 1
+		"Ability2"					""		// Ability 2
+		"Ability3"					""		// Ability 3
+		"Ability4"					""		// Ability 4
+		"Ability5"					""		// Ability 5
+		"Ability6"					""		// Ability 6
+		"Ability7"					""		// Ability 7
+		"Ability8"					""		// Ability 8
+	}
+	"npc_dota_hero_razor_dotapoker"
+	{
+		"override_hero"				"npc_dota_hero_razor"			// Hero to override
+		"Ability1"					""		// Ability 1
+		"Ability2"					""		// Ability 2
+		"Ability3"					""		// Ability 3
+		"Ability4"					""		// Ability 4
+		"Ability5"					""		// Ability 5
+		"Ability6"					""		// Ability 6
+		"Ability7"					""		// Ability 7
+		"Ability8"					""		// Ability 8
+	}
+}

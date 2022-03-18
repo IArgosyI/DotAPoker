@@ -1,0 +1,11 @@
+npc_dota_hero_clinkz
+npc_dota_hero_drow_ranger
+npc_dota_hero_medusa
+npc_dota_hero_mirana
+npc_dota_hero_windrunner
+npc_dota_hero_hoodwink
+
+npc_dota_hero_gyrocopter
+npc_dota_hero_snapfire
+npc_dota_hero_sniper
+npc_dota_hero_techies

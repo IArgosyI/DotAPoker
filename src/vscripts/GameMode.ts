@@ -1,5 +1,5 @@
 import { reloadable } from "./lib/tstl-utils";
-import { modifier_panic } from "./modifiers/modifier_panic";
+import { modifier_player_wisp } from "./modifiers/modifier_player_wisp";
 
 const heroSelectionTime = 20;
 
@@ -27,6 +27,7 @@ export class GameMode {
         // Register event listeners for dota engine events
         ListenToGameEvent("game_rules_state_change", () => this.OnStateChange(), undefined);
         ListenToGameEvent("npc_spawned", event => this.OnNpcSpawned(event), undefined);
+        ListenToGameEvent("entity_hurt", event => this.OnEntityHurt(event), undefined);
 
         // Register event listeners for events from the UI
         CustomGameEventManager.RegisterListener("ui_panel_closed", (_, data) => {
@@ -43,32 +44,40 @@ export class GameMode {
 
             // Also apply the panic modifier to the sending player's hero
             const hero = player.GetAssignedHero();
-            hero.AddNewModifier(hero, undefined, modifier_panic.name, { duration: 5 });
+            hero.AddNewModifier(hero, undefined, modifier_player_wisp.name, { duration: 1000 });
         });
     }
 
     private configure(): void {
-        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.GOODGUYS, 3);
-        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.BADGUYS, 3);
-
+        GameRules.EnableCustomGameSetupAutoLaunch(true);
+        //GameRules.SetCustomGameSetupAutoLaunchDelay(0);
+        GameRules.SetHeroSelectionTime(0);
+        GameRules.SetStrategyTime(0);
+        GameRules.SetPreGameTime(0);
         GameRules.SetShowcaseTime(0);
-        GameRules.SetHeroSelectionTime(heroSelectionTime);
+
+        const gameMode = GameRules.GetGameModeEntity();
+        gameMode.SetCustomGameForceHero("wisp");
+        gameMode.SetTeam(DotaTeam.NOTEAM);
+
+        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.GOODGUYS, 0);
+        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.BADGUYS, 0);
+
+        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.CUSTOM_1, 1);
+        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.CUSTOM_2, 1);
+        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.CUSTOM_3, 1);
+        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.CUSTOM_4, 1);
+        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.CUSTOM_5, 1);
+        GameRules.SetCustomGameTeamMaxPlayers(DotaTeam.CUSTOM_6, 1);
     }
 
     public OnStateChange(): void {
         const state = GameRules.State_Get();
 
-        // Add 4 bots to lobby in tools
-        if (IsInToolsMode() && state == GameState.CUSTOM_GAME_SETUP) {
-            for (let i = 0; i < 4; i++) {
-                Tutorial.AddBot("npc_dota_hero_lina", "", "", false);
-            }
-        }
-
         if (state === GameState.CUSTOM_GAME_SETUP) {
             // Automatically skip setup in tools
             if (IsInToolsMode()) {
-                Timers.CreateTimer(3, () => {
+                Timers.CreateTimer(30, () => {
                     GameRules.FinishCustomGameSetup();
                 });
             }
@@ -84,6 +93,9 @@ export class GameMode {
         print("Game starting!");
 
         // Do some stuff here
+        CreateUnitByName("npc_dota_hero_axe", Vector(600, 400, 0), true, undefined, undefined, DotaTeam.CUSTOM_4);
+        CreateUnitByName("npc_dota_hero_drow_ranger", Vector(600, 400, 0), true, undefined, undefined, DotaTeam.CUSTOM_5);
+        CreateUnitByName("npc_dota_hero_razor", Vector(600, 400, 0), true, undefined, undefined, DotaTeam.CUSTOM_6);
     }
 
     // Called on script_reload
@@ -100,8 +112,21 @@ export class GameMode {
         if (unit.IsRealHero()) {
             if (!unit.HasAbility("meepo_earthbind_ts_example")) {
                 // Add lua ability to the unit
-                unit.AddAbility("meepo_earthbind_ts_example");
+                //unit.AddAbility("meepo_earthbind_ts_example");
             }
+        }
+    }
+
+    private OnEntityHurt(event: EntityHurtEvent){
+        print(event);
+        const unit = EntIndexToHScript(event.entindex_killed) as CDOTA_BaseNPC_Hero;
+
+        if (unit.IsRealHero())
+        {
+            print("unit is a hero " + unit.GetName());
+        }
+        else {
+            print("unit is NOT a hero");
         }
     }
 }
